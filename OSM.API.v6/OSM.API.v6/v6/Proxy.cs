@@ -34,6 +34,11 @@ namespace OSM.API.v6
 			Osm osm = GetMany("nodes", ids);
 			return osm.Nodes;
 		}
+		public Osm GetWaysOsm(IEnumerable<long> ids)
+		{
+			Osm osm = GetMany("ways", ids);
+			return osm;
+		}
 
 		public IEnumerable<Way> GetWays(IEnumerable<long> ids)
 		{

@@ -29,6 +29,7 @@ namespace OSM.API.v6
 
 		[XmlAttribute]
 		public bool upload { get; set; }
+
 		public bool uploadSpecified { get; set; }
 	}
 
@@ -111,6 +112,25 @@ namespace OSM.API.v6
 
 		[XmlIgnoreAttribute()]
 		public bool actionSpecified { get; set; }
+
+		[System.Xml.Serialization.XmlElementAttribute("tag", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+		public Tag[] tags
+		{
+			get
+			{
+				if (Tags == null) return null;
+
+				var t = this.Tags.Select(kvp => new Tag { k = kvp.Key, v = kvp.Value });
+				return t.ToArray();
+			}
+			set
+			{
+				this.Tags = value == null ? new Dictionary<String, String>() : value.ToDictionary(t => t.k, t => t.v);
+			}
+		}
+
+		[XmlIgnore]
+		public Dictionary<String, String> Tags { get; set; }
 	}
 
 	[Serializable]
@@ -129,25 +149,6 @@ namespace OSM.API.v6
 				this.Nodes = value == null ? new List<Nd>() : value.ToList();
 			}
 		}
-
-		[System.Xml.Serialization.XmlElementAttribute("tag", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-		public Tag[] tags
-		{
-			get
-			{
-				if (Tags == null) return null;
-
-				var t = this.Tags.Select(kvp => new Tag { k = kvp.Key, v = kvp.Value });
-				return t.ToArray();
-			}
-			set
-			{
-				this.Tags = value == null ? new Dictionary<String, String>() : value.ToDictionary(t => t.k, t => t.v);
-			}
-		}
-    
-		[XmlIgnore]
-		public Dictionary<String, String> Tags { get; set; }
 
 		[XmlIgnore]
 		public List<Nd> Nodes { get; set; }
@@ -176,7 +177,7 @@ namespace OSM.API.v6
     public partial class Member
     {
         [XmlAttribute]
-        public MemberType type
+		public ElementType type
         {
             get;
             set;
@@ -198,19 +199,21 @@ namespace OSM.API.v6
     }
 
     [Serializable]
-    public enum MemberType
+    public enum ElementType
     {
-        way,
-        node,
-        relation,
+		[XmlEnum(Name="way")]
+        Way,
+		[XmlEnum(Name = "node")]
+		Node,
+		[XmlEnum(Name = "relation")]
+		Relation,
     }
 
     [Serializable]
     public partial class Relation:Element
     {
         [XmlElement("member", typeof(Member), Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        [XmlElement("tag", typeof(Tag), Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public object[] Items
+		public Member[] Members
         {
             get;
             set;
@@ -220,9 +223,6 @@ namespace OSM.API.v6
 	[Serializable]
 	public partial class Node : Element
 	{
-		[XmlElement("tag", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-		public Tag[] tag { get; set; }
-
 		[XmlAttribute]
 		public double lat { get; set; }
 
