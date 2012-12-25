@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
+using System.Xml.Schema;
 
 namespace OSM.API.v6
 {
@@ -30,6 +31,7 @@ namespace OSM.API.v6
 		[XmlAttribute]
 		public bool upload { get; set; }
 
+		[XmlIgnore]
 		public bool uploadSpecified { get; set; }
 	}
 
@@ -74,46 +76,46 @@ namespace OSM.API.v6
 		[XmlAttribute]
 		public bool visible { get; set; }
 
-		[XmlIgnoreAttribute()]
+		[XmlIgnore()]
 		public bool visibleSpecified { get; set; }
 
 		[XmlAttribute]
 		public string user { get; set; }
 
-		[XmlIgnoreAttribute()]
+		[XmlIgnore()]
 		public bool userSpecified { get; set; }
 
 		[XmlAttribute]
 		public long uid { get; set; }
 
-		[XmlIgnoreAttribute()]
+		[XmlIgnore()]
 		public bool uidSpecified { get; set; }
 
 		[XmlAttribute]
 		public System.DateTime timestamp { get; set; }
 
-		[XmlIgnoreAttribute()]
+		[XmlIgnore()]
 		public bool timestampSpecified { get; set; }
 
 		[XmlAttribute]
 		public int version { get; set; }
 
-		[XmlIgnoreAttribute()]
+		[XmlIgnore()]
 		public bool versionSpecified { get; set; }
 
 		[XmlAttribute]
 		public long changeset { get; set; }
 
-		[XmlIgnoreAttribute()]
+		[XmlIgnore()]
 		public bool changesetSpecified { get; set; }
 
 		[XmlAttribute]
-		public string action { get; set; }
+		public Action action { get; set; }
 
-		[XmlIgnoreAttribute()]
-		public bool actionSpecified { get; set; }
+		[XmlIgnore()]
+		public bool actionSpecified { get { return action == Action.Create || action == Action.Modify || action == Action.Delete; } }
 
-		[System.Xml.Serialization.XmlElementAttribute("tag", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+		[XmlElement("tag", Form = XmlSchemaForm.Unqualified)]
 		public Tag[] tags
 		{
 			get
@@ -136,7 +138,7 @@ namespace OSM.API.v6
 	[Serializable]
 	public partial class Way : Element
 	{
-		[System.Xml.Serialization.XmlElementAttribute("nd", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+		[XmlElement("nd", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
 		public Nd[] nds
 		{
 			get
@@ -208,6 +210,18 @@ namespace OSM.API.v6
 		[XmlEnum(Name = "relation")]
 		Relation,
     }
+
+	[Serializable]
+	public enum Action
+	{
+		None,
+		[XmlEnum(Name="create")]
+		Create,
+		[XmlEnum(Name = "modify")]
+		Modify,
+		[XmlEnum(Name = "delete")]
+		Delete
+	}
 
     [Serializable]
     public partial class Relation:Element
