@@ -14,11 +14,12 @@ namespace OSM.API.v6
         static readonly string API_URL = @"http://api.openstreetmap.org";
         static readonly string CAPABILITIES = "/api/capabilities";
         static readonly string API_PREFIX = "/api/0.6/";
-        private Api capabilities;
+
+		public Api Capabilities { get; private set; }
 
         public Proxy()
         {
-            capabilities = GetCapabilities();
+            this.Capabilities = GetCapabilities();
         }
 
         public Api GetCapabilities()
