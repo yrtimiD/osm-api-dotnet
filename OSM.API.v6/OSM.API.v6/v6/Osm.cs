@@ -35,34 +35,34 @@ namespace OSM.API.v6
 		public bool uploadSpecified { get; set; }
 	}
 
-    [Serializable]
-    public partial class Bound
-    {
-        [XmlAttribute]
-        public string origin
-        {
-            get;
-            set;
-        }
+	[Serializable]
+	public partial class Bound
+	{
+		[XmlAttribute]
+		public string origin
+		{
+			get;
+			set;
+		}
 
-        [XmlAttribute]
-        public string box
-        {
-            get;
-            set;
-        }
-    }
+		[XmlAttribute]
+		public string box
+		{
+			get;
+			set;
+		}
+	}
 
-    [Serializable]
-    public partial class Nd
-    {
-        [XmlAttribute]
-        public long @ref
-        {
-            get;
-            set;
-        }
-    }
+	[Serializable]
+	public partial class Nd
+	{
+		[XmlAttribute]
+		public long @ref
+		{
+			get;
+			set;
+		}
+	}
 
 	[XmlInclude(typeof(Node))]
 	[XmlInclude(typeof(Way))]
@@ -157,59 +157,59 @@ namespace OSM.API.v6
 
 	}
 
-    [Serializable]
-    public partial class Tag
-    {
-        [XmlAttribute]
-        public string k
-        {
-            get;
-            set;
-        }
+	[Serializable]
+	public partial class Tag
+	{
+		[XmlAttribute]
+		public string k
+		{
+			get;
+			set;
+		}
 
-        [XmlAttribute]
-        public string v
-        {
-            get;
-            set;
-        }
-    }
+		[XmlAttribute]
+		public string v
+		{
+			get;
+			set;
+		}
+	}
 
-    [Serializable]
-    public partial class Member
-    {
-        [XmlAttribute]
+	[Serializable]
+	public partial class Member
+	{
+		[XmlAttribute]
 		public ElementType type
-        {
-            get;
-            set;
-        }
+		{
+			get;
+			set;
+		}
 
-        [XmlAttribute]
-        public long @ref
-        {
-            get;
-            set;
-        }
+		[XmlAttribute]
+		public long @ref
+		{
+			get;
+			set;
+		}
 
-        [XmlAttribute]
-        public string role
-        {
-            get;
-            set;
-        }
-    }
+		[XmlAttribute]
+		public string role
+		{
+			get;
+			set;
+		}
+	}
 
-    [Serializable]
-    public enum ElementType
-    {
+	[Serializable]
+	public enum ElementType
+	{
 		[XmlEnum(Name="way")]
-        Way,
+		Way,
 		[XmlEnum(Name = "node")]
 		Node,
 		[XmlEnum(Name = "relation")]
 		Relation,
-    }
+	}
 
 	[Serializable]
 	public enum Action
@@ -223,16 +223,16 @@ namespace OSM.API.v6
 		Delete
 	}
 
-    [Serializable]
-    public partial class Relation:Element
-    {
-        [XmlElement("member", typeof(Member), Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+	[Serializable]
+	public partial class Relation:Element
+	{
+		[XmlElement("member", typeof(Member), Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
 		public Member[] Members
-        {
-            get;
-            set;
-        }
-    }
+		{
+			get;
+			set;
+		}
+	}
 
 	[Serializable]
 	public partial class Node : Element
